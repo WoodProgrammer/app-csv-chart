@@ -9,13 +9,18 @@ metadata:
     app.kubernetes.io/name: {{ template "proxy2.name" . }}
 data:
   default.conf: |
+    upstream app_server {
+        server localhost:5000;
+        keepalive {{ .Values.proxy.keepalive }};
+    }
     server {
         listen 80;
+        client_max_body_size {{ .Values.proxy.client_body_size }} ;
         server_name localhost;
 
         location = /favicon.ico { access_log off; log_not_found off; }
 
         location / {
-            proxy_pass http://localhost:5000 ;
+            proxy_pass http://app_server ;
         }
     }

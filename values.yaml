@@ -3,6 +3,8 @@ replicaCount: 1
 proxy:
   image: nginx:1.16.1-alpine
   pullPolicy: IfNotPresent
+  keepalive: '32'
+  client_body_size: '100M'
 
 application:
   image: emirozbir/csv-app:latest
