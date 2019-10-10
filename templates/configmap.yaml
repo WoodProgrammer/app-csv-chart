@@ -1,0 +1,21 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ template "proxy2.fullname" . }}
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    app.kubernetes.io/name: {{ template "proxy2.name" . }}
+data:
+  default.conf: |
+    server {
+        listen 80;
+        server_name localhost;
+
+        location = /favicon.ico { access_log off; log_not_found off; }
+
+        location / {
+            proxy_pass http://localhost:5000 ;
+        }
+    }

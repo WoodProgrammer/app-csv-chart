@@ -1,0 +1,36 @@
+replicaCount: 1
+
+proxy:
+  image: nginx:1.16.1-alpine
+  pullPolicy: IfNotPresent
+
+application:
+  image: emirozbir/csv-app:latest
+  bucket: csv-buckets
+  pullPolicy: Always
+
+
+
+service:
+  type: NodePort
+  port: 80
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths: []
+
+  tls: []
+
+resources: {}
+
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
